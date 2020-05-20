@@ -1,0 +1,58 @@
+<div class="container">
+<br>
+  <input type="radio" [(ngModel)]="audienceType" (change)="changeAudience()" name="audienceType" value="ENDUSER">ENDUSER
+    <input type="radio" [(ngModel)]="audienceType" (change)="changeAudience()"  name="audienceType" value="GROUP">GROUP
+    <input type="radio" [(ngModel)]="audienceType" (change)="changeAudience()"  name="audienceType" value="CHANNEL">CHANNEL
+
+   <!-- <input type="radio" [(ngModel)]="audienceType"  name="audienceType" value="CHANNEL">CHANNEL -->
+<br>
+<div *ngIf="audienceType == 'ENDUSER'">
+    <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Users</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of Users">
+            <td *ngIf="user.userName != userService.getLoggedInUser().userName">{{ user.userName }}</td>
+            <td *ngIf="user.userName != userService.getLoggedInUser().userName"><button class="btn btn-success button" routerLink="/chatroom" [queryParams]="{ name: user.userName, userID: user.userID, audienceType: audienceType, conversationId: user.conversationId }" >Chat</button></td>
+          </tr>   
+        </tbody>
+      </table>
+    </div>
+    <div *ngIf="audienceType == 'GROUP'">
+     <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Groups</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let group of groups">
+            <td >{{ group.groupName }}</td>
+            <td ><button class="btn btn-success button" routerLink="/chatroom" [queryParams]="{ name: group.groupName, userID: group.groupID, audienceType: audienceType, conversationId: group.conversationId}" >Chat</button></td>
+          </tr>   
+        </tbody>
+      </table>
+    </div>
+
+    <div *ngIf="audienceType == 'CHANNEL'">
+      <table class="table table-hover">
+         <thead>
+           <tr>
+             <th>Channel</th>
+             <th></th>
+           </tr>
+         </thead>
+         <tbody>
+           <tr *ngFor="let channel of channels">
+             <td >{{ channel.channelName }}</td>
+             <td ><button class="btn btn-success button" routerLink="/chatroom" [queryParams]="{ name: channel.channelName, userID: channel.channelID, audienceType: audienceType, conversationId: channel.conversationId}" >Chat</button></td>
+           </tr>   
+         </tbody>
+       </table>
+     </div>
+</div>
